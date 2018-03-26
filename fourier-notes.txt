@@ -1,0 +1,13 @@
+FOURIER
+
+Goal:
+  - To recreate the tool used by 3Blue1Brown
+
+Things to code
+  - Add slider for winding frequency
+  - Add gray lines in graph_1
+  - Add animation possibility to change the winding freq automatically
+  - Add animation of winding itself
+
+  - Add the com_pos vs freq graph
+  - Add a changeTo option which changes freq from one value to other using ease-in and ease-out with tween

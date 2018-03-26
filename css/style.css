@@ -1,0 +1,27 @@
+body{
+  background: black;
+}
+
+text{
+  fill: #fff;
+}
+
+.domain{
+  stroke: #bcbbbd; stroke-width: 2;
+}
+
+.tick line, .axis{
+  stroke: #bcbbbd; stroke-width: 2;
+}
+
+.tick text{
+  fill: #bcbbbd; font-size: 2em;
+}
+
+#graph_1_path{
+  fill: none; stroke: #8da67b; stroke-width: 2;
+}
+
+#graph_2_path{
+  fill: none; stroke: orange; stroke-width: 2;
+}

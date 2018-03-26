@@ -1,0 +1,77 @@
+<html lang="en">
+<head>
+  <title>Fourier</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0"/>
+</head>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+<script src="https://d3js.org/d3-hsv.v0.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/4.0.0/math.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+<!-- <script type="text/x-mathjax-config"> MathJax.Hub.Config({ extensions: ["tex2jax.js"], jax: ["input/TeX","output/HTML-CSS"], tex2jax: { inlineMath: [["\\(","\\)"]] } }); </script> -->
+<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script> -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.1/dat.gui.min.js"></script> -->
+<!-- <script src="https://unpkg.com/sweetalert2@7.13.3/dist/sweetalert2.all.js"></script> -->
+
+<link rel="stylesheet" href="../css/style.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+<!-- <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet"> -->
+
+<script src = '../js/graph_1.js'></script>
+<script src = '../js/graph_2.js'></script>
+
+<body>
+  <div class = 'fluid-container text-center bg-black'>
+    <h5 class = 'py-3 text-secondary'>Fourier Transform</h5>
+    <div id = 'container' style = 'position: relative;'>
+      <div id = 'canvas_div' style = 'position: relative;'> <svg id = 'canvas'></svg> </div>
+    </div>
+  </div>
+</body>
+
+<script>
+
+// ************************************************************************************** //
+// Variables
+
+var canvas_width = 1024, canvas_height = 768;
+var canvas_size = 400;
+d3.select('#canvas').styles({ width: canvas_width, height: canvas_height });
+d3.select('#container').attrs({ class: 'mx-auto' }).styles({ width: canvas_width, height: canvas_height });
+
+var timeSpan = 5, dt = 0.01;
+var waves = [ {freq: 1, amp: 1} ];
+var time = [], mag = [];
+var winding_freq = 1;
+
+var lineGen = d3.line().x(function(d){ return d.x }).y(function(d){ return d.y });
+
+function createGraphArray(){
+  data_path = []; time = []; mag = [];
+  for(var t = 0; t <= timeSpan; t += dt){ time.push(t); mag.push(0); }
+  waves.forEach(d => { mag = numeric.add(mag, numeric.mul(d.amp, numeric.sin( numeric.mul(d.freq*2*Math.PI, time) ))) });
+}
+
+function setup(){
+  graph_1.createCanvasElements();
+  graph_2.createCanvasElements();
+}
+
+function update(){
+  createGraphArray();
+  graph_1.updateGraph();
+  graph_2.updateGraph();
+}
+
+setup(); update();
+
+</script>
