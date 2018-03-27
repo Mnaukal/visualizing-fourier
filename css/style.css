@@ -18,10 +18,10 @@ text{
   fill: #bcbbbd; font-size: 2em;
 }
 
-#graph_1_path{
-  fill: none; stroke: #8da67b; stroke-width: 2;
+#cartesian_graph_path{
+  fill: none; stroke: yellow; stroke-width: 3; /* #8da67b */
 }
 
-#graph_2_path{
-  fill: none; stroke: orange; stroke-width: 2;
+#polar_graph_path{
+  fill: none; stroke: yellow; stroke-width: 3; /* orange */
 }
