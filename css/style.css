@@ -15,7 +15,7 @@ text{
 }
 
 .tick text{
-  fill: #bcbbbd; font-size: 2em;
+  fill: #bcbbbd; font-size: 1.8em;
 }
 
 #cartesian_graph_path{
@@ -24,4 +24,8 @@ text{
 
 #polar_graph_path{
   fill: none; stroke: yellow; stroke-width: 3; /* orange */
+}
+
+#frequency_graph_path{
+  fill: none; stroke: yellow; stroke-width: 3; /* #8da67b */
 }

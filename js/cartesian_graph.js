@@ -12,7 +12,11 @@ cartesian_graph.createCanvasElements = function(){
   cartesian_graph.path = cartesian_graph.origin.append('path').attrs({ id: 'cartesian_graph_path' }); // Path is added first so that the numbers are clearly visible
   cartesian_graph.xAxis = cartesian_graph.origin.append('g');
   cartesian_graph.yAxis = cartesian_graph.origin.append('g');
-  cartesian_graph.line = cartesian_graph.origin.append('line').attrs({ 'marker-end': 'url(#arrow)' }).styles({ 'stroke': 'white', 'stroke-width': 3 });
+
+  cartesian_graph.line = cartesian_graph.origin.append('line').attrs({ 'marker-end': 'url(#arrow)' }).styles({ 'stroke': 'white', 'stroke-width': 3, 'opacity': 0 });
+  this.line_winding = this.origin.append('line')
+    .attrs({ x1: 0, y1: 0*this.height, x2: 0, y2: -1*this.height })
+    .styles({ 'stroke': 'orange', 'stroke-dasharray': '6,6', 'stroke-width': 3 });
 
   cartesian_graph.freq_ctlr = {};
   cartesian_graph.freq_ctlr.div = d3.select('#container').append('div').styles({ 'position': 'absolute', 'top': cartesian_graph.height+30, 'left': 80 });
@@ -51,7 +55,7 @@ cartesian_graph.updateGraph = function(){
   cartesian_graph.path.attrs({ d: lineGen(temp_arr) });
 
   d3.selectAll('.guides').remove();
-  var winding_time = 1/winding_freq;
+  var winding_time = 1/wind_freq;
   for(var t = winding_time; t < timeSpan; t += winding_time){
     temp_X = cartesian_graph.xScale(t);
     cartesian_graph.origin.append('line')
@@ -69,4 +73,5 @@ cartesian_graph.animate = function(){
   temp_X =  this.xScale(time[winding_animation.index]);
   temp_Y =  this.yScale(mag[winding_animation.index]);
   this.line.attrs({ x1: temp_X, y1: 0, x2: temp_X, y2: temp_Y });
+  this.line_winding.attrs({ x1: temp_X, x2: temp_X });
 }
