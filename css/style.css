@@ -1,5 +1,5 @@
 body{
-  background: black;
+  background: #222222;
 }
 
 text{
@@ -19,13 +19,13 @@ text{
 }
 
 #cartesian_graph_path{
-  fill: none; stroke: yellow; stroke-width: 3; /* #8da67b */
+  fill: none; stroke: #ffff57; stroke-width: 3; /* #8da67b */
 }
 
 #polar_graph_path{
-  fill: none; stroke: yellow; stroke-width: 3; /* orange */
+  fill: none; stroke: #ffff57; stroke-width: 3; /* orange */
 }
 
 #frequency_graph_path{
-  fill: none; stroke: yellow; stroke-width: 3; /* #8da67b */
+  fill: none; stroke: #ff1400; stroke-width: 3; /* #8da67b */
 }

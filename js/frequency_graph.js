@@ -25,7 +25,9 @@ frequency_graph.update = function(){
   this.xAxis.call(d3.axisBottom(this.xScale).ticks(3));
   this.yAxis.call(d3.axisLeft(this.yScale).ticks(3));
 
-  this.data_path = wind_freq_arr.map((d,i) => { return { x: this.xScale(wind_freq_arr[i]), y: this.yScale(com_amp_arr[i]) } });
+  this.data_path = wind_freq_arr.map((d,i) => { return { 
+    x: this.xScale(wind_freq_arr[i]), 
+    y: this.yScale(com_amp_arr[i]) } });
   this.path.attrs({ d: lineGen(this.data_path) });
 
   var temp_y_index = Math.round( wind_freq_to_index_scale(wind_freq) );

@@ -19,19 +19,39 @@ polar_graph.createCanvasElements = function(){
     .attrs({ x1: 0, y1: 0 })
     .styles({ 'stroke': 'orange', 'stroke-dasharray': '6,6', 'stroke-width': 3 });
 
+  // winding frequency slider
   polar_graph.wind_freq_ctlr = {};
   polar_graph.wind_freq_ctlr.div = d3.select('#container').append('div').styles({ 'position': 'absolute', 'top': polar_graph.height+cartesian_graph.height+30, 'left': 0 });
-  polar_graph.wind_freq_ctlr.slider = polar_graph.wind_freq_ctlr.div.append('input').attrs({ type: 'range', min: 0.2, max: 2, step: 0.01, value: waves[0].freq }).styles({ width: '10em' });
+  polar_graph.wind_freq_ctlr.slider = polar_graph.wind_freq_ctlr.div.append('input').attrs({ type: 'range', min: 0.2, max: 2, step: 0.001, value: waves[0].freq }).styles({ width: '10em' });
   polar_graph.wind_freq_ctlr.text = polar_graph.wind_freq_ctlr.div.append('text').attrs({ class: 'ml-2' }).styles({ 'font-size': '1.5em', 'color': '#bbb', 'vertical-align': 'text-bottom' }).html('Winding Frequency = ' + wind_freq + ' Hz');
   polar_graph.wind_freq_ctlr.slider.on('input', function(){
     wind_freq = this.value;
     polar_graph.wind_freq_ctlr.text.html('Winding Frequency = ' + wind_freq + ' Hz');
     update();
   })
+  
+  // wind amount slider
+  polar_graph.wind_prog_ctlr = {};
+  polar_graph.wind_prog_ctlr.div = d3.select('#container').append('div').styles({ 'position': 'absolute', 'top': polar_graph.height+cartesian_graph.height+60, 'left': 0 });
+  polar_graph.wind_prog_ctlr.slider = polar_graph.wind_prog_ctlr.div.append('input').attrs({ type: 'range', min: 0, max: timeSpan, step: 0.001, value: timeSpan, id: "progress" }).styles({ width: '10em' });
+  polar_graph.wind_prog_ctlr.text = polar_graph.wind_prog_ctlr.div.append('text').attrs({ class: 'ml-2' }).styles({ 'font-size': '1.5em', 'color': '#bbb', 'vertical-align': 'text-bottom' }).html('Winding progress');
+  polar_graph.wind_prog_ctlr.slider.on('input', function(){
+    polar_graph.setTime(this.value);
+  })
 
+  // start winding button
   polar_graph.wind_button = d3.select('#container')
-    .append('div').styles({ 'position': 'absolute', 'top': polar_graph.height+cartesian_graph.height+80, 'left': 180 })
+    .append('div').styles({ 'position': 'absolute', 'top': polar_graph.height+cartesian_graph.height+100, 'left': 180 })
     .append('button').text('Start Winding').on('click', windingButton_click);
+}
+
+// ************************************************************************************** //
+// Set time
+polar_graph.setTime = function(t) {
+  console.log(t);
+  winding_animation.time = t;
+  winding_animation.index = parseInt(winding_animation.time/dt);
+  polar_graph.animate(); cartesian_graph.animate();
 }
 
 // ************************************************************************************** //
@@ -56,7 +76,7 @@ polar_graph.updateGraph = function(){
   this.data_array.forEach(d => { d.x += polar_graph.origin_x; d.y += polar_graph.origin_y; })
   this.x_array = temp_x; this.y_array = temp_y;
 
-  this.animate();
+  //this.animate();
 }
 
 // ************************************************************************************** //
@@ -64,29 +84,29 @@ polar_graph.updateGraph = function(){
 
 polar_graph.animate = function(){
   var tempX = 0.05*canvas_width + 0*polar_graph.width, tempY = cartesian_graph.height + 40 + 0*polar_graph.height;
-  ctx.fillStyle = 'black';
+  ctx.fillStyle = '#222222';
   ctx.fillRect(tempX, tempY, this.width, this.height);
 
-  ctx.lineWidth = 3; ctx.strokeStyle = 'yellow';
-    ctx.beginPath();
-    for(var i = 0; i < winding_animation.index-1; i++){
-      if(this.data_array[i+1] != undefined){
-        ctx.moveTo(this.data_array[i].x, this.data_array[i].y); ctx.lineTo(this.data_array[i+1].x, this.data_array[i+1].y);
-      }
+  ctx.lineWidth = 3; ctx.strokeStyle = '#ffff57';
+  ctx.beginPath();
+  for(var i = 0; i < winding_animation.index-1; i++){
+    if(this.data_array[i+1] != undefined){
+      ctx.moveTo(this.data_array[i].x, this.data_array[i].y); ctx.lineTo(this.data_array[i+1].x, this.data_array[i+1].y);
     }
-    ctx.stroke();
+  }
+  ctx.stroke();  
 
-    if(winding_animation.index){
-      polar_graph.line.attrs({ x2: this.data_array[winding_animation.index].x - polar_graph.origin_x, y2: this.data_array[winding_animation.index].y - polar_graph.origin_y });
-      polar_graph.line_winding.attrs({ x2: 0.4*this.height*Math.cos(winding_animation.time*wind_freq*2*Math.PI), y2: 0.4*this.height*Math.sin(winding_animation.time*wind_freq*2*Math.PI) });
-    }
+  if(winding_animation.index){
+    polar_graph.line.attrs({ x2: this.data_array[winding_animation.index].x - polar_graph.origin_x, y2: this.data_array[winding_animation.index].y - polar_graph.origin_y });
+    polar_graph.line_winding.attrs({ x2: 0.4*this.height*Math.cos(winding_animation.time*wind_freq*2*Math.PI), y2: 0.4*this.height*Math.sin(winding_animation.time*wind_freq*2*Math.PI) });
+  }
 
-    // Calculating the centre of mass
-    if(winding_animation.index != 0){
-      this.com_x = math.mean( this.x_array.slice(0, winding_animation.index) );
-      this.com_y = math.mean( this.y_array.slice(0, winding_animation.index) );
-      this.circle.attrs({ cx: this.com_x, cy: this.com_y });
-      com_amp = Math.sqrt(Math.pow(this.com_x, 2) + Math.pow(this.com_y, 2));
-      com_amp = this.scale.invert(com_amp);
-    }
+  // Calculating the centre of mass
+  if(winding_animation.index != 0){
+    this.com_x = math.mean( this.x_array.slice(0, winding_animation.index) );
+    this.com_y = math.mean( this.y_array.slice(0, winding_animation.index) );
+    this.circle.attrs({ cx: this.com_x, cy: this.com_y });
+    com_amp = Math.sqrt(Math.pow(this.com_x, 2) + Math.pow(this.com_y, 2));
+    com_amp = this.scale.invert(com_amp);
+  }
 }

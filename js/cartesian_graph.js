@@ -51,7 +51,9 @@ cartesian_graph.updateGraph = function(){
   cartesian_graph.yAxis.call( d3.axisLeft(cartesian_graph.yScale).ticks(2) );
   d3.select('.tick').select('text').styles({ 'display': 'none' });
 
-  var temp_arr = time.map((d,i) => { return { x: cartesian_graph.xScale(time[i]), y: cartesian_graph.yScale(mag[i]) } });
+  var temp_arr = time.map((d,i) => { return { 
+    x: cartesian_graph.xScale(time[i]), 
+    y: cartesian_graph.yScale(mag[i]) } });
   cartesian_graph.path.attrs({ d: lineGen(temp_arr) });
 
   d3.selectAll('.guides').remove();
