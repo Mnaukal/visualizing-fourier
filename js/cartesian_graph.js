@@ -34,6 +34,7 @@ cartesian_graph.createCanvasElements = function(){
   cartesian_graph.timeSpan_ctlr.text = cartesian_graph.timeSpan_ctlr.div.append('text').attrs({ class: 'ml-2' }).styles({ 'font-size': '1.4em', 'color': '#bbb', 'vertical-align': 'text-bottom' }).html('Duration of signal = ' + timeSpan + ' s');
   cartesian_graph.timeSpan_ctlr.slider.on('input', function(){
     timeSpan = this.value;
+    $("#progress").attr({"max": timeSpan});
     cartesian_graph.timeSpan_ctlr.text.html('Duration of signal = ' + timeSpan + ' s');
     update();
   })

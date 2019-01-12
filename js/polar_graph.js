@@ -61,9 +61,9 @@ polar_graph.updateGraph = function(){
   var axis_length = 0.4*this.height;
   this.xAxis.attrs({ x1: -axis_length, y1: 0, x2: axis_length, y2: 0, class: 'axis' });
   this.yAxis.attrs({ y1: -axis_length, x1: 0, y2: axis_length, x2: 0, class: 'axis' });
-
+  
   this.scale = d3.scaleLinear().domain([0, math.max(d3.extent(mag))]).range([0, axis_length]);
-
+  
   var temp_mag = mag.map(d => { return this.scale(d) });
   var temp_angle = numeric.mul(2*Math.PI*wind_freq, time);
   var temp_x = numeric.mul(temp_mag, numeric.cos(temp_angle));
@@ -71,30 +71,21 @@ polar_graph.updateGraph = function(){
 
   var temp_arr = temp_x.map((d,i) => {
     return { x: temp_x[i], y: temp_y[i] }
-  })
+  });
+    
   this.data_array = temp_arr;
-  this.data_array.forEach(d => { d.x += polar_graph.origin_x; d.y += polar_graph.origin_y; })
-  this.x_array = temp_x; this.y_array = temp_y;
-
-  //this.animate();
+  this.x_array = temp_x; 
+  this.y_array = temp_y;
+  
+  this.animate();
 }
 
 // ************************************************************************************** //
 // Animate Polar Graph
 
 polar_graph.animate = function(){
-  var tempX = 0.05*canvas_width + 0*polar_graph.width, tempY = cartesian_graph.height + 40 + 0*polar_graph.height;
-  ctx.fillStyle = '#222222';
-  ctx.fillRect(tempX, tempY, this.width, this.height);
 
-  ctx.lineWidth = 3; ctx.strokeStyle = '#ffff57';
-  ctx.beginPath();
-  for(var i = 0; i < winding_animation.index-1; i++){
-    if(this.data_array[i+1] != undefined){
-      ctx.moveTo(this.data_array[i].x, this.data_array[i].y); ctx.lineTo(this.data_array[i+1].x, this.data_array[i+1].y);
-    }
-  }
-  ctx.stroke();  
+  polar_graph.path.attrs({ d: lineGen(this.data_array.slice(0, winding_animation.index)) });  
 
   if(winding_animation.index){
     polar_graph.line.attrs({ x2: this.data_array[winding_animation.index].x - polar_graph.origin_x, y2: this.data_array[winding_animation.index].y - polar_graph.origin_y });
