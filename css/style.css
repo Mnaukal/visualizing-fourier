@@ -26,6 +26,24 @@ text{
   fill: none; stroke: #ffff57; stroke-width: 3; /* orange */
 }
 
-#frequency_graph_path{
+#polar_graph_dot {
+  fill: #2ccdff; stroke: none;
+}
+
+#frequency_graph_path /* magnitude */ {
   fill: none; stroke: #ff1400; stroke-width: 3; /* #8da67b */
+  display: none;
+}
+
+#frequency_graph_path_x /* real part */ {
+  fill: none; stroke: #00c4ff; stroke-width: 3; /* #8da67b */
+}
+
+#frequency_graph_path_y /* imaginary part */ {
+  fill: none; stroke: #29ed29; stroke-width: 3; /* #8da67b */
+  display: none;
+}
+
+#frequency_graph_dot_x {
+  fill: #2ccdff; stroke: none;
 }

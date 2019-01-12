@@ -64,6 +64,7 @@ var ctx = canvas.node().getContext("2d");
 var timeSpan = 5, dt = 0.01;
 var waves = [ {freq: 0.8, amp: 1, phase: 0}, {freq: 1.2, amp: 0, phase: 0} ];
 var time = [], mag = [], com_amp_arr = [], wind_freq_arr = [];
+var com_x_arr = [], com_y_arr = [];
 var wind_freq_to_index_scale, com_amp;
 var wind_freq = 1;
 
@@ -94,8 +95,8 @@ function createFrequencyAnalysis(){
   var temp_x = numeric.mul(temp_mag, numeric.cos(temp_angle));
   var temp_y = numeric.mul(temp_mag, numeric.sin(temp_angle));
 
-  var com_x_arr = temp_x.map(d => { return math.mean(d) });
-  var com_y_arr = temp_y.map(d => { return math.mean(d) });
+  com_x_arr = temp_x.map(d => { return math.mean(d) });
+  com_y_arr = temp_y.map(d => { return math.mean(d) });
   com_amp_arr = numeric.add( numeric.pow(com_x_arr, 2), numeric.pow(com_y_arr, 2) );
   wind_freq_arr = temp_wind_freq;
 

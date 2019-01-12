@@ -13,11 +13,11 @@ polar_graph.createCanvasElements = function(){
   polar_graph.yAxis = polar_graph.origin.append('line');
   polar_graph.path = polar_graph.origin.append('path').attrs({ id: 'polar_graph_path' });
 
-  polar_graph.circle = polar_graph.origin.append('circle').attrs({ r: 5 }).styles({ 'fill': 'red' });
   polar_graph.line = polar_graph.origin.append('line').attrs({ x1: 0, y1: 0, 'marker-end': 'url(#arrow)' }).styles({ 'stroke': 'white', 'stroke-width': 3, 'opacity': 0 });
   this.line_winding = this.origin.append('line')
     .attrs({ x1: 0, y1: 0 })
     .styles({ 'stroke': 'orange', 'stroke-dasharray': '6,6', 'stroke-width': 3 });
+  polar_graph.circle = polar_graph.origin.append('circle').attrs({ r: 8, id: 'polar_graph_dot' });
 
   // winding frequency slider
   polar_graph.wind_freq_ctlr = {};
@@ -96,7 +96,10 @@ polar_graph.animate = function(){
   if(winding_animation.index != 0){
     this.com_x = math.mean( this.x_array.slice(0, winding_animation.index) );
     this.com_y = math.mean( this.y_array.slice(0, winding_animation.index) );
-    this.circle.attrs({ cx: this.com_x, cy: this.com_y });
+    this.circle.attrs({ 
+      cx: this.com_x, 
+      cy: this.com_y 
+    });
     com_amp = Math.sqrt(Math.pow(this.com_x, 2) + Math.pow(this.com_y, 2));
     com_amp = this.scale.invert(com_amp);
   }
