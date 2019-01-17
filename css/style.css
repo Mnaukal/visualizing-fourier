@@ -6,6 +6,10 @@ text{
   fill: #fff;
 }
 
+.hide {
+  display: none;
+}
+
 .domain{
   stroke: #bcbbbd; stroke-width: 2;
 }
@@ -30,6 +34,16 @@ text{
   fill: #2ccdff; stroke: none;
 }
 
+.continuous #frequency_graph,
+.discrete #discrete_frequency_graph {
+  display: block;
+}
+
+.discrete #frequency_graph,
+.continuous #discrete_frequency_graph {
+  display: none;
+}
+
 #frequency_graph_path /* magnitude */ {
   fill: none; stroke: #ff1400; stroke-width: 3; /* #8da67b */
   display: none;
@@ -44,8 +58,108 @@ text{
   display: none;
 }
 
+.discrete_frequency_graph_dot_x {
+  fill: #00c4ff;
+}
+.discrete_frequency_graph_dot_y {
+  fill: #29ed29;
+}
+
 #frequency_graph_dot_x {
   fill: #2ccdff; stroke: none;
+}
+
+#function_graph_path{
+  fill: none; stroke: #ffff57; stroke-width: 3; /* #8da67b */
+}
+
+#function_graph_path_zero {
+  fill: none; stroke: #bcbbbd; stroke-width: 3;
+}
+
+.discrete #function_graph_path{
+  stroke: #a7a739;
+}
+
+.continuous .function_graph_dot {
+  display: none;
+}
+.discrete .function_graph_dot {
+  display: block;
+  fill: #ffff57;
+}
+
+#function_graph_path_0 {
+  fill: none; stroke: #f53939; stroke-width: 3; /* #8da67b */
+}
+
+#function_graph_path_1 {
+  fill: none; stroke: #39f573; stroke-width: 3; /* #8da67b */
+}
+#function_graph_path_2 {
+  fill: none; stroke: #0fa2fd; stroke-width: 3; /* #8da67b */
+}
+
+#controls {
+  color: #FFF;
+  padding: 0px;
+}
+#controls form, #controls label {
+  margin-bottom: 0px;
+}
+
+#controls>div {
+  margin: 10px 0px;
+  padding: 10px;
+  padding-bottom: 0px;
+}
+
+.controls-row {
+  margin: 0px;
+  margin-bottom: 10px;
+  display: flex;
+}
+.controls-left {
+  width: 25%;
+  margin: 0px;
+}
+.controls-right {
+  width: 75%;
+  position: relative;
+}
+.controls-right>input {
+  position: absolute;
+  left: 0px;
+  bottom: 5px;
+}
+.controls-right>select {
+  position: absolute;
+  left: 0px;
+}
+
+.controls-left.two-controls {
+  width: 25%;
+  margin: 0px;
+}
+.controls-right.two-controls {
+  width: 25%;
+  position: relative;
+}
+
+#function_sum {
+  border: 3px solid #ffff57;
+}
+
+#function_f_0 {
+  border: 3px solid #f53939;
+}
+
+#function_f_1 {
+  border: 3px solid #39f573;
+}
+
+#function_f_2 {
+  border: 3px solid #0fa2fd;
 }
 
 /****** sliders ******/

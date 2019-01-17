@@ -1,0 +1,383 @@
+<html lang="en">
+<head>
+  <title>Fourier</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0"/>
+</head>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-selection-multi.v1.min.js"></script>
+<script src="https://d3js.org/d3-hsv.v0.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/4.0.0/math.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+<link rel="stylesheet" href="../css/style.css">
+
+<script src = '../js/function_graph.js'></script>
+<script src = '../js/frequency_graph.js'></script>
+<script src = '../js/discrete_frequency_graph.js'></script>
+
+<body>
+  <div class = 'fluid-container text-center bg-black'>
+    <h5 class = 'py-3 text-secondary'>Fourier Transform</h5>
+    <div id = 'container' style = 'position: relative;'>
+      <div class="row">
+      <div id="controls" class="col-3">
+        <form>
+          <div class="form-row">
+            <div class="col">
+              <input type="radio" name="dft" value="discrete" id="dftd" ><label for="dftd">Discrete</label>
+            </div>
+            <div class="col">
+              <input type="radio" name="dft" value="continuous" id="dftc" checked><label for="dftc">Continuous</label>
+            </div>
+          </div>
+        </form>
+        
+        <div id="function_sum">
+          <form>
+            <h6>Sum</h6>
+            <div class="controls-row">
+              <label for="f_s_show" class="controls-left">Show</label>
+              <div class="controls-right"><input type="checkbox" id="f_s_show" checked></div>
+            </div>
+          </form>
+        </div>
+        
+        <div id="function_f_0">
+          <form>
+            <h6>Function 1</h6>
+            <div class="controls-row">
+              <label for="f_0_show" class="controls-left">Show</label>
+              <div class="controls-right"><input type="checkbox" id="f_0_show" checked></div>
+            </div>
+            <div class="controls-row">            
+              <label for="f_0_freq" class="controls-left">Frequency</label>
+              <div class="controls-right"><input type="range" min="0" max="8" step="0.01" id="f_0_freq"></div>
+            </div>
+            <div class="controls-row">
+              <label for="f_0_amp" class="controls-left">Amplitude</label>
+              <div class="controls-right"><input type="range" min="0" max="8" step="0.01" id="f_0_amp"></div>
+            </div>
+            <div class="controls-row">
+            <label for="f_0_func" class="controls-left two-controls">Function</label>
+              <div class="controls-right two-controls"><select id="f_0_func"><option default>cos</option><option>sin</option></select>
+              </div>
+              <label for="f_0_pos" class="controls-left two-controls">Positive</label>
+              <div class="controls-right two-controls"><input type="checkbox" id="f_0_pos"></div>
+            </div>
+          </form>
+        </div>
+        
+        <div id="function_f_1">
+          <form>
+            <h6>Function 2</h6>
+            <div class="controls-row">
+              <label for="f_1_show" class="controls-left">Show</label>
+              <div class="controls-right"><input type="checkbox" id="f_1_show" ></div>
+            </div>
+            <div class="controls-row">            
+              <label for="f_1_freq" class="controls-left">Frequency</label>
+              <div class="controls-right"><input type="range" min="0" max="8" step="0.01" id="f_1_freq"></div>
+            </div>
+            <div class="controls-row">
+              <label for="f_1_amp" class="controls-left">Amplitude</label>
+              <div class="controls-right"><input type="range" min="0" max="8" step="0.01" id="f_1_amp"></div>
+            </div>
+            <div class="controls-row">
+            <label for="f_1_func" class="controls-left two-controls">Function</label>
+              <div class="controls-right two-controls"><select id="f_1_func"><option default>cos</option><option>sin</option></select></div>
+              <label for="f_1_pos" class="controls-left two-controls">Positive</label>
+              <div class="controls-right two-controls"><input type="checkbox" id="f_1_pos"></div>
+            </div>
+          </form>
+        </div>
+        
+        <div id="function_f_2">
+          <form>
+            <h6>Function 3</h6>
+            <div class="controls-row">
+              <label for="f_2_show" class="controls-left">Show</label>
+              <div class="controls-right"><input type="checkbox" id="f_2_show"></div>
+            </div>
+            <div class="controls-row">            
+              <label for="f_2_freq" class="controls-left">Frequency</label>
+              <div class="controls-right"><input type="range" min="0" max="8" step="0.01" id="f_2_freq"></div>
+            </div>
+            <div class="controls-row">
+              <label for="f_2_amp" class="controls-left">Amplitude</label>
+              <div class="controls-right"><input type="range" min="0" max="8" step="0.01" id="f_2_amp"></div>
+            </div>
+            <div class="controls-row">
+            <label for="f_2_func" class="controls-left two-controls">Function</label>
+              <div class="controls-right two-controls"><select id="f_2_func"><option default>cos</option><option>sin</option></select></div>
+              <label for="f_2_pos" class="controls-left two-controls">Positive</label>
+              <div class="controls-right two-controls"><input type="checkbox" id="f_2_pos"></div>
+            </div>
+          </form>
+        </div>
+        
+        
+      </div>
+        
+      <div id = 'canvas_div' style = 'position: relative;' class="col-9">
+        <svg id = 'canvas'>
+          <defs>
+            <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+              <path d="M0,0 L0,6 L9,3 z" fill="#fff" />
+            </marker>
+          </defs>
+        </svg>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  
+  //TODO selection of waves (hide unselected)
+  //TODO design of controls
+
+Array.prototype.last = function(){
+  return this[ this.length-1 ];
+}
+
+// ************************************************************************************** //
+// Variables
+
+var canvas_width = 1024, canvas_height = 768;
+var canvas_size = 400;
+d3.select('#canvas').styles({ width: canvas_width, height: canvas_height });
+d3.select('#container').attrs({ class: 'mx-auto' }).styles({ width: canvas_width * 4/3, height: canvas_height });
+
+function setDiscrete(){
+  timeSpan = 1;
+  $("#canvas").removeClass("continuous").addClass("discrete");
+}
+  
+function setContinuous() {
+  timeSpan = 8;
+  $("#canvas").addClass("continuous").removeClass("discrete");
+}
+
+var timeSpan = 8, dt = 0.01;
+var d_n = 32, ddt = 1/d_n;
+  // 1/32 + set range in createFrequencyAnalysis to 32
+var waves = [ 
+  {func: 'sin', freq: 1, amp: 1, phase: 0, positive: false},
+  {func: 'cos', freq: 0, amp: 0, phase: 0, positive: false},
+  {func: 'sin', freq: 0, amp: 0, phase: 0, positive: false}
+];
+var time = [],
+    values = [], 
+    mag = [], // sum of waves
+    com_amp_arr = [],
+    wind_freq_arr = [],
+    d_time = [],
+    d_values = [],
+    d_mag = []; // sum of waves
+var com_x_arr = [], 
+    com_y_arr = [],
+    dft_x_arr = [],
+    dft_y_arr = [];
+var wind_freq_to_index_scale, com_amp;
+var wind_freq = 1;
+
+var winding_animation = {};
+winding_animation.active = false; winding_animation.time = 0;
+
+var lineGen = d3.line().x(function(d){ return d.x }).y(function(d){ return d.y });
+
+
+// ************************************************************************************** //
+// Computation
+
+function createGraphArray(){
+  // initialize arrays
+  time = []; values = []; mag = []; d_values = []; d_mag = []; d_time = [];
+  for (var i = 0; i < waves.length; i++)
+  {
+    values.push([]);
+    d_values.push([]);
+  }
+  // continuous
+  for(var t = 0; t <= timeSpan; t += dt)
+  { 
+    time.push(t); mag.push(0);   
+    for (var i = 0; i < waves.length; i++)
+      values[i].push(0);                                    
+  }
+  // discrete
+  for(var t = 0; t <= 1; t += ddt)
+  { 
+    d_time.push(t); d_mag.push(0);   
+    for (var i = 0; i < waves.length; i++)
+      d_values[i].push(0);                                    
+  }
+  
+  // fill with values
+  for (var i = 0; i < waves.length; i++)
+  {
+    //if(!$("#f_" + i + "_show").prop("checked"))
+    //  continue;
+    
+    // continuous 
+    if(waves[i].func == 'cos')
+      values[i] = numeric.mul(waves[i].amp, numeric.cos( numeric.mul(waves[i].freq*2*Math.PI, time) ));
+    else if (waves[i].func == 'sin')
+      values[i] = numeric.mul(waves[i].amp, numeric.sin( numeric.mul(waves[i].freq*2*Math.PI, time) ));
+    if(waves[i].positive)
+      values[i] = numeric.add(values[i], waves[i].amp);
+    mag = numeric.add(mag, values[i]);
+    
+    // discrete
+    if(waves[i].func == 'cos')
+      d_values[i] = numeric.mul(waves[i].amp, numeric.cos( numeric.mul(waves[i].freq*2*Math.PI, d_time) ));
+    else if (waves[i].func == 'sin')
+      d_values[i] = numeric.mul(waves[i].amp, numeric.sin( numeric.mul(waves[i].freq*2*Math.PI, d_time) ));
+    if(waves[i].positive)
+      d_values[i] = numeric.add(d_values[i], waves[i].amp);
+    d_mag = numeric.add(d_mag, d_values[i]);
+    
+  }
+  winding_animation.index = time.length - 1;
+  createFrequencyAnalysis();
+  dft();
+}
+
+function createFrequencyAnalysis(){
+  var temp_wind_freq = d3.range(0, 4, dt);
+  var temp_angle = temp_wind_freq.map(freq => { return numeric.mul(2*Math.PI*freq, time); });
+  var temp_mag = temp_wind_freq.map(d => { return mag });
+
+  var temp_x = numeric.mul(temp_mag, numeric.cos(temp_angle));
+  var temp_y = numeric.mul(temp_mag, numeric.sin(temp_angle));
+
+  com_x_arr = temp_x.map(d => { return math.mean(d) });
+  com_y_arr = temp_y.map(d => { return math.mean(d) });
+  com_amp_arr = numeric.add( numeric.pow(com_x_arr, 2), numeric.pow(com_y_arr, 2) );
+  wind_freq_arr = temp_wind_freq;
+
+  wind_freq_to_index_scale = d3.scaleLinear().domain([0, 4]).range([0, temp_wind_freq.length-1]);
+}
+  
+function dft() {
+  dft_x_arr = []; 
+  dft_y_arr = [];
+  for (var j = 0; j < d_n; j++)
+  {
+    dft_x_arr.push(0);
+    dft_y_arr.push(0);
+    for (var k = 0; k < d_n; k++)
+    {
+      dft_x_arr[j] += d_mag[k]*Math.cos(2*Math.PI * ddt * j * k); 
+      dft_y_arr[j] += d_mag[k]*Math.sin(2*Math.PI * ddt * j * k);
+    }
+    //console.log(dft_y_arr[j]);
+  }
+}
+
+// ************************************************************************************** //
+// Setup and Update
+
+function setup(){
+  function_graph.createCanvasElements(d_n);
+  frequency_graph.create(1, 0.5, 0.05, 0.9, false);
+  frequency_graph.setDomain([0,4]);
+  frequency_graph.path_y.styles({'display' : 'block'});
+  discrete_frequency_graph.create(1, 0.5, 0.05, 0.9, false, d_n);
+  discrete_frequency_graph.setDomain([0,32]);
+}
+
+function update(){
+  selectWaves();
+  createGraphArray();
+  function_graph.updateGraph();  
+  frequency_graph.update();
+  discrete_frequency_graph.update();
+}
+  
+function updateWaves() {
+  for (var i = 0; i < waves.length; i++)
+  {      
+    waves[i].amp = parseFloat($("#f_"+i+"_amp").val());    
+    waves[i].freq = parseFloat($("#f_"+i+"_freq").val());
+    waves[i].func = $("#f_"+i+"_func").val();
+    waves[i].positive = $("#f_"+i+"_pos").prop("checked");
+    $("label[for='f_"+i+"_amp']").text("Amp: " + $("#f_"+i+"_amp").val());
+    $("label[for='f_"+i+"_freq']").text("Freq: " + $("#f_"+i+"_freq").val());
+  }
+}
+  
+function selectWaves() {
+  if($("#f_s_show").prop("checked"))
+  {
+    $("#function_graph_path").removeClass("hide");
+    $("#function_graph_dot").removeClass("hide");
+  }
+  else 
+  {
+    $("#function_graph_path").addClass("hide");
+    $("#function_graph_dot").addClass("hide");
+  }  
+  
+  if($("#f_0_show").prop("checked"))
+    $("#function_graph_path_0").removeClass("hide");
+  else
+    $("#function_graph_path_0").addClass("hide");
+  
+  if($("#f_1_show").prop("checked"))
+    $("#function_graph_path_1").removeClass("hide");
+  else
+    $("#function_graph_path_1").addClass("hide");
+  
+  if($("#f_2_show").prop("checked"))
+    $("#function_graph_path_2").removeClass("hide");
+  else
+    $("#function_graph_path_2").addClass("hide");
+}
+
+$(document).ready(function() {
+  $("input").on("input", function() {
+    updateWaves();
+  })
+  $("input").on("change", function() {
+    if($("#dftd").prop("checked")) 
+      setDiscrete();
+    else setContinuous();
+    
+    updateWaves();
+    update();
+  })
+  $("select").on("change", function() {  
+    updateWaves();
+    update();
+  })
+  
+  for (var i = 0; i < waves.length; i++)
+  {
+    $("#f_"+i+"_amp").val(waves[i].amp);    
+    $("#f_"+i+"_freq").val(waves[i].freq);
+    $("#f_"+i+"_func").val(waves[i].func);
+  }
+  
+  if($("#dftd").prop("checked")) 
+    setDiscrete();
+  else setContinuous();
+  
+  updateWaves();
+  
+  setup(); update();
+});
+
+
+</script>
