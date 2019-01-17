@@ -67,7 +67,7 @@
             </div>
             <div class="controls-row">
             <label for="f_0_func" class="controls-left two-controls">Function</label>
-              <div class="controls-right two-controls"><select id="f_0_func"><option default>cos</option><option>sin</option></select>
+              <div class="controls-right two-controls"><select id="f_0_func"><option default>cos</option><option>sin</option><option>box</option></select>
               </div>
               <label for="f_0_pos" class="controls-left two-controls">Positive</label>
               <div class="controls-right two-controls"><input type="checkbox" id="f_0_pos"></div>
@@ -92,7 +92,7 @@
             </div>
             <div class="controls-row">
             <label for="f_1_func" class="controls-left two-controls">Function</label>
-              <div class="controls-right two-controls"><select id="f_1_func"><option default>cos</option><option>sin</option></select></div>
+              <div class="controls-right two-controls"><select id="f_1_func"><option default>cos</option><option>sin</option><option>box</option></select></div>
               <label for="f_1_pos" class="controls-left two-controls">Positive</label>
               <div class="controls-right two-controls"><input type="checkbox" id="f_1_pos"></div>
             </div>
@@ -116,7 +116,7 @@
             </div>
             <div class="controls-row">
             <label for="f_2_func" class="controls-left two-controls">Function</label>
-              <div class="controls-right two-controls"><select id="f_2_func"><option default>cos</option><option>sin</option></select></div>
+              <div class="controls-right two-controls"><select id="f_2_func"><option default>cos</option><option>sin</option><option>box</option></select></div>
               <label for="f_2_pos" class="controls-left two-controls">Positive</label>
               <div class="controls-right two-controls"><input type="checkbox" id="f_2_pos"></div>
             </div>
@@ -235,6 +235,8 @@ function createGraphArray(){
       values[i] = numeric.mul(waves[i].amp, numeric.cos( numeric.mul(waves[i].freq*2*Math.PI, time) ));
     else if (waves[i].func == 'sin')
       values[i] = numeric.mul(waves[i].amp, numeric.sin( numeric.mul(waves[i].freq*2*Math.PI, time) ));
+    if(waves[i].func == 'box')
+      values[i] = numeric.mul(waves[i].amp, box(time, waves[i].freq));
     if(waves[i].positive)
       values[i] = numeric.add(values[i], waves[i].amp);
     mag = numeric.add(mag, values[i]);
@@ -244,6 +246,8 @@ function createGraphArray(){
       d_values[i] = numeric.mul(waves[i].amp, numeric.cos( numeric.mul(waves[i].freq*2*Math.PI, d_time) ));
     else if (waves[i].func == 'sin')
       d_values[i] = numeric.mul(waves[i].amp, numeric.sin( numeric.mul(waves[i].freq*2*Math.PI, d_time) ));
+    if(waves[i].func == 'box')
+      d_values[i] = numeric.mul(waves[i].amp, box(d_time, waves[i].freq));
     if(waves[i].positive)
       d_values[i] = numeric.add(d_values[i], waves[i].amp);
     d_mag = numeric.add(d_mag, d_values[i]);
@@ -252,6 +256,22 @@ function createGraphArray(){
   winding_animation.index = time.length - 1;
   createFrequencyAnalysis();
   dft();
+}
+  
+function box(arr, freq)
+{
+  var period = 1/freq;
+  var ret = [];
+  
+  for (var i = 0; i < arr.length; i++)
+  {
+    var val = arr[i] % period;
+    if(val < period/2)
+      ret.push(1);
+    else
+      ret.push(-1);
+  }
+  return ret;  
 }
 
 function createFrequencyAnalysis(){
