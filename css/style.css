@@ -6,6 +6,19 @@ text{
   fill: #fff;
 }
 
+h1, h2 {
+  padding-top: 1em;
+  padding-bottom: 0px;
+}
+
+h1 {
+  color: white;
+}
+
+.menu {
+  padding-bottom: 1em;
+}
+
 .hide {
   display: none;
 }
@@ -48,14 +61,23 @@ text{
   fill: none; stroke: #ff1400; stroke-width: 3; /* #8da67b */
   display: none;
 }
+.frequency_graph_checkbox_magnitude_discrete, .frequency_graph_checkbox_magnitude_continuous {
+  color: #ff1400;
+}
 
 #frequency_graph_path_x /* real part */ {
   fill: none; stroke: #00c4ff; stroke-width: 3; /* #8da67b */
+}
+.frequency_graph_checkbox_real_discrete, .frequency_graph_checkbox_real_continuous {
+  color: #00c4ff;
 }
 
 #frequency_graph_path_y /* imaginary part */ {
   fill: none; stroke: #29ed29; stroke-width: 3; /* #8da67b */
   display: none;
+}
+.frequency_graph_checkbox_imaginary_discrete, .frequency_graph_checkbox_imaginary_continuous {
+  color: #29ed29;
 }
 
 .discrete_frequency_graph_dot_x {
@@ -67,6 +89,20 @@ text{
 
 #frequency_graph_dot_x {
   fill: #2ccdff; stroke: none;
+}
+
+.discrete .frequency_graph_checkbox_imaginary_discrete, .discrete .frequency_graph_checkbox_real_discrete {
+  display: block;
+}
+.continuous .frequency_graph_checkbox_imaginary_discrete, .continuous .frequency_graph_checkbox_real_discrete {
+  display: none;
+}
+
+.continuous .frequency_graph_checkbox_imaginary_continuous, .continuous .frequency_graph_checkbox_real_continuous, .continuous .frequency_graph_checkbox_magnitude_continuous {
+  display: block;
+}
+.discrete .frequency_graph_checkbox_imaginary_continuous, .discrete .frequency_graph_checkbox_real_continuous, .discrete .frequency_graph_checkbox_magnitude_continuous {
+  display: none;
 }
 
 #function_graph_path{
@@ -167,6 +203,7 @@ input[type=range] {
   -webkit-appearance: none;
   width: 100%;
   margin: 6px 0;
+  background: initial;
 }
 input[type=range]:focus {
   outline: none;

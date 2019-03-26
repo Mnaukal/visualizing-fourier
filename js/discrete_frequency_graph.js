@@ -23,6 +23,38 @@ discrete_frequency_graph.create = function(w, h, x, y, show_dot, count){
   for (var i = 0; i < count; i++){
     discrete_frequency_graph.dots_y.push(discrete_frequency_graph.origin.append('circle').attrs({ r: 8, class: 'discrete_frequency_graph_dot_y' }));
   }
+  
+  // graph control
+  // real
+  discrete_frequency_graph.check_real = {};
+  discrete_frequency_graph.check_real.div = d3.select('#container').append('div').attrs({class: 'frequency_graph_checkbox_real_discrete'}).styles({ 
+    position: 'absolute', 
+    top:  700,
+    left: 600
+  });
+  discrete_frequency_graph.check_real.checkbox = discrete_frequency_graph.check_real.div.append('input').attrs({type: 'checkbox', checked: true, id: 'frequency_graph_checkbox_real_discrete'});
+  discrete_frequency_graph.check_real.text = discrete_frequency_graph.check_real.div.append('label').attrs({class: 'ml-2', for: 'frequency_graph_checkbox_real_discrete' }).html('Real part');
+  discrete_frequency_graph.check_real.checkbox.on('input', function() {
+    if(discrete_frequency_graph.check_real.checkbox.property("checked") == true)
+      d3.selectAll(".discrete_frequency_graph_dot_x").styles({display: 'block' });
+    else
+      d3.selectAll(".discrete_frequency_graph_dot_x").styles({display: 'none' });
+  })
+  // imaginary
+  discrete_frequency_graph.check_imaginary = {};
+  discrete_frequency_graph.check_imaginary.div = d3.select('#container').append('div').attrs({class: 'frequency_graph_checkbox_imaginary_discrete'}).styles({ 
+    position: 'absolute', 
+    top:  700, //frequency_graph.height + frequency_graph.height, 
+    left: 700 //frequency_graph.width + 200
+  });
+  discrete_frequency_graph.check_imaginary.checkbox = discrete_frequency_graph.check_imaginary.div.append('input').attrs({type: 'checkbox', checked: true, id: 'frequency_graph_checkbox_imaginary_discrete'});
+  discrete_frequency_graph.check_imaginary.text = discrete_frequency_graph.check_imaginary.div.append('label').attrs({class: 'ml-2', for: 'frequency_graph_checkbox_imaginary_discrete'}).html('Imaginary part');
+  discrete_frequency_graph.check_imaginary.checkbox.on('input', function() {
+    if(discrete_frequency_graph.check_imaginary.checkbox.property("checked") == true)
+      d3.selectAll(".discrete_frequency_graph_dot_y").styles({display: 'block' });
+    else
+      d3.selectAll(".discrete_frequency_graph_dot_y").styles({display: 'none' });
+  })
 }
 
 discrete_frequency_graph.setDomain = function(dom)

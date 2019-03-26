@@ -25,7 +25,10 @@
 
 <body>
   <div class = 'fluid-container text-center bg-black'>
-    <h5 class = 'py-3 text-secondary'>Fourier Transform</h5>
+    <h2 class = 'text-secondary'>Fourier Transform Examples</h2>
+    <div class="menu">
+      <a href="winding.html">Visualization of what is Fourier Transform</a>
+    </div>
     <div id = 'container' style = 'position: relative;'>
       <div class="row">
       <div id="controls" class="col-3">
@@ -161,12 +164,12 @@ d3.select('#container').attrs({ class: 'mx-auto' }).styles({ width: canvas_width
 
 function setDiscrete(){
   timeSpan = 1;
-  $("#canvas").removeClass("continuous").addClass("discrete");
+  $("#container").removeClass("continuous").addClass("discrete");
 }
   
 function setContinuous() {
   timeSpan = 8;
-  $("#canvas").addClass("continuous").removeClass("discrete");
+  $("#container").addClass("continuous").removeClass("discrete");
 }
 
 var timeSpan = 8, dt = 0.01;
@@ -311,7 +314,7 @@ function dft() {
 
 function setup(){
   function_graph.createCanvasElements(d_n);
-  frequency_graph.create(1, 0.5, 0.05, 0.9, false);
+  frequency_graph.create(1, 0.5, 0.05, 0.9, false, true);
   frequency_graph.setDomain([0,4]);
   frequency_graph.path_y.styles({'display' : 'block'});
   discrete_frequency_graph.create(1, 0.5, 0.05, 0.9, false, d_n);

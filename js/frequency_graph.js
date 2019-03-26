@@ -4,7 +4,7 @@ frequency_graph.domain = [0.2,2];
 // ************************************************************************************** //
 // Create
 
-frequency_graph.create = function(w, h, x, y, show_dot){
+frequency_graph.create = function(w, h, x, y, show_dot, show_imaginary = false){
   this.width = w*canvas_width, 
   this.height = h*canvas_height;
   this.origin_x = x*canvas_width;// + 0.2*this.width; 
@@ -20,6 +20,57 @@ frequency_graph.create = function(w, h, x, y, show_dot){
   this.circle = this.origin.append('circle').attrs({ r: 5, id: 'frequency_graph_dot_x' });
   if(!show_dot)
     this.circle.styles({display:'none'});
+  
+  // graph control
+  // real
+  frequency_graph.check_real = {};
+  frequency_graph.check_real.div = d3.select('#container').append('div').attrs({class: 'frequency_graph_checkbox_real_continuous'}).styles({ 
+    position: 'absolute', 
+    top:  700,
+    left: 600
+  });
+  frequency_graph.check_real.checkbox = frequency_graph.check_real.div.append('input').attrs({type: 'checkbox', checked: true, id: 'frequency_graph_checkbox_real_continuous'});
+  frequency_graph.check_real.text = frequency_graph.check_real.div.append('label').attrs({class: 'ml-2', for: 'frequency_graph_checkbox_real_continuous' }).html('Real part');
+  frequency_graph.check_real.checkbox.on('input', function() {
+    if(frequency_graph.check_real.checkbox.property("checked") == true)
+      d3.select("#frequency_graph_path_x").styles({display: 'block' });
+    else
+      d3.select("#frequency_graph_path_x").styles({display: 'none' });
+  })
+  // imaginary
+  frequency_graph.check_imaginary = {};
+  frequency_graph.check_imaginary.div = d3.select('#container').append('div').attrs({class: 'frequency_graph_checkbox_imaginary_continuous'}).styles({ 
+    position: 'absolute', 
+    top:  700, //frequency_graph.height + frequency_graph.height, 
+    left: 700 //frequency_graph.width + 200
+  });
+  frequency_graph.check_imaginary.checkbox = frequency_graph.check_imaginary.div.append('input').attrs({type: 'checkbox', id: 'frequency_graph_checkbox_imaginary_continuous'});
+  frequency_graph.check_imaginary.text = frequency_graph.check_imaginary.div.append('label').attrs({class: 'ml-2', for: 'frequency_graph_checkbox_imaginary_continuous'}).html('Imaginary part');
+  frequency_graph.check_imaginary.checkbox.on('input', function() {
+    if(frequency_graph.check_imaginary.checkbox.property("checked") == true)
+      d3.select("#frequency_graph_path_y").styles({display: 'block' });
+    else
+      d3.select("#frequency_graph_path_y").styles({display: 'none' });
+  })
+  if(show_imaginary)
+    frequency_graph.check_imaginary.checkbox.attrs({checked: true});
+    
+  // magnitude
+  frequency_graph.check_magnitude = {};
+  frequency_graph.check_magnitude.div = d3.select('#container').append('div').attrs({class: 'frequency_graph_checkbox_magnitude_continuous'}).styles({ 
+    position: 'absolute', 
+    top:  700, //frequency_graph.height + frequency_graph.height, 
+    left: 850 //frequency_graph.width + 350
+  });
+  frequency_graph.check_magnitude.checkbox = frequency_graph.check_magnitude.div.append('input').attrs({type: 'checkbox', id: 'frequency_graph_checkbox_magnitude_continuous'});
+  frequency_graph.check_magnitude.text = frequency_graph.check_magnitude.div.append('label').attrs({class: 'ml-2',for: 'frequency_graph_checkbox_magnitude_continuous'}).html('Magnitude');
+  frequency_graph.check_magnitude.checkbox.on('input', function() {
+    if(frequency_graph.check_magnitude.checkbox.property("checked") == true)
+      d3.select("#frequency_graph_path").styles({display: 'block' });
+    else
+      d3.select("#frequency_graph_path").styles({display: 'none' });
+  })
+  
 }
 
 frequency_graph.setDomain = function(dom)
